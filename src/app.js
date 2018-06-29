@@ -1,53 +1,45 @@
 'use strict';
 
 
-const reader = require('./lib/reader');
-const CleanBuffer = require('./lib/bitmap');
-const changeColors = require('./lib/colorFun');
-const write = require('./lib/write');
+const reader = require('./lib/readFile');
+// const CleanBuffer = require('./lib/bitmap');
+// const changeColors = require('./lib/colorFun');
+const write = require('./lib/writeFile');
 //const sizeChange = require('./lib/size');
 
 const root = __dirname;
 
+console.log('hi');
 
-
-function app(oldPath, newPath, transformationString) {
+function app(oldPath, newPath, command) {
   let transformation;
 
-  switch (transformationString) {
-  case 'invert':
-    transformation = changeColors.invert;
+  switch (command) {
+  case 'test':
+    console.log('tested');
     break;
 
-  case 'darken':
-    transformation = changeColors.darken;
-    break;
-
-  case 'lighten':
-    transformation = changeColors.lighten;
-    break;
-
-  case 'random':
-    transformation = changeColors.random;
+  case 'test2':
+    console.log('tested 2');
     break;
 
   default:
     console.log('please choose from invert, darken, lighten, or random-color');
 
   }
-  reader(`${root}/../assets/${oldPath}`, (err, data) => {
+  reader(`./${oldPath}`, (err, data) => {
     if (err) {
-      console.log('!!ERROR!!');
+      console.log('!!ERROR!! 2222 ', err);
     } else {
+      console.log('buff man', data);
+      // let cleaned = new CleanBuffer(data);
 
-      let cleaned = new CleanBuffer(data);
+      // var newBuffer = transformation();
 
-      var newBuffer = transformation(cleaned);
-
-      write(`${root}/../assets/${newPath}`, newBuffer.buffer, (err) => {
-        if (err) console.log('!!ERROR!!');
+      write(`${root}/${newPath}`, data, (err) => {
+        if (err) console.log('!!ERROR!!3333');
         else {
-          console.log(transformationString +  ' finished to ' + newPath);
+          console.log(command +  ' finished to ' + newPath);
         }
       });
 
