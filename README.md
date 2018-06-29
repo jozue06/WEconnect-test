@@ -12,8 +12,8 @@ CLI app for WEconnect
 * Our app module exports functions...
 
 
-## Function x
-- [ ] The function looks at ...
+## Function test
+- [x] The function looks at a given file, and copies it to new file
 
 ## Function
 - [ ] x
