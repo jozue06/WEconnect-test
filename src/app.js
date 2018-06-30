@@ -24,16 +24,21 @@ function app(oldPath, newPath, command) {
     break;
 
   default:
-    console.log('please choose from invert, darken, lighten, or random-color');
+    console.log('please choose an argument to run. Choose from `test` or `test2`');
 
   }
   reader(`./${oldPath}`, (err, data) => {
     if (err) {
       console.log('!!ERROR!! 2222 ', err);
     } else {
+      let team = [];
       let scores = [];
+      let te =  /\D\S\,/gi;
       let re = '\n';
+      let points = 0;
+      let cleanedTeam = data.toString().trim().split(/\D\S+\,+/gi);
       let cleanedScore = data.toString().trim().split(re);
+      // console.log(data.toString());
       
       cleanedScore.forEach( (e) => {
         // let num = ;
@@ -41,16 +46,29 @@ function app(oldPath, newPath, command) {
         return scores;
       });
 
-      scores.forEach((calc) =>{
-        if( calc[0] > calc[1]){ 
-          return console.log('team 1 won');}
-        if( calc[0] <calc[1]){ 
-          return console.log('team 2 won');}
-        if( calc[0] === calc[1]){ 
-          return console.log('teams tied');}
 
+      console.log('cleaned team -->' , cleanedTeam[1]);
+      // console.log('cleaned score -->' , cleanedScore);
+      
+      cleanedTeam.forEach( (e) =>{
+        // team.points = 0;
+        team.push(e.match(/\D/g));
+      
       });
-      // console.log('scores array -->' , scores);
+
+      // scores.forEach((calc) =>{
+      //   if( calc[0] > calc[1]){ 
+      //     // team[0].points+=3;
+      //     // console.log('pontssssssss ', team);
+      //     console.log('team 1 won');}
+      //   if( calc[0] < calc[1]){ 
+      //     console.log('team 2 won');}
+      //   if( calc[0] === calc[1]){ 
+      //     console.log('teams tied');}
+
+      // });
+      // console.log('team array --> ' , team[1].join(''));
+      // console.log('scores array --> ' , scores);
       // .match(/\d/g);
       // let num = cleanedScore.match(/\d/g);
       // num = num.join(' , ');
