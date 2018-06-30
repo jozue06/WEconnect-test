@@ -33,10 +33,10 @@ function app(oldPath, newPath, command) {
     } else {
       let team = [];
       let scores = [];
-      let te =  /\D\S\,/gi;
+   
       let re = '\n';
-      let points = 0;
-      let cleanedTeam = data.toString().trim().split(/\D\S+\,+/gi);
+      // let points = 0;
+      let cleanedTeam = data.toString().trim().split(/[\n\W\d]/gi);
       let cleanedScore = data.toString().trim().split(re);
       // console.log(data.toString());
       
@@ -47,14 +47,18 @@ function app(oldPath, newPath, command) {
       });
 
 
-      console.log('cleaned team -->' , cleanedTeam[1]);
+      console.log('cleaned team -->' , cleanedTeam);
+      // console.log('cleaned team -->' , cleanedTeam);
       // console.log('cleaned score -->' , cleanedScore);
       
       cleanedTeam.forEach( (e) =>{
-        // team.points = 0;
-        team.push(e.match(/\D/g));
+        // e.trim();
+        // e.replace(/\s/g, '');
+        // console.log(e);
+        team.push(e.match(/\W/g));
       
       });
+      console.log('team array --> ' , team);
 
       // scores.forEach((calc) =>{
       //   if( calc[0] > calc[1]){ 
@@ -67,7 +71,6 @@ function app(oldPath, newPath, command) {
       //     console.log('teams tied');}
 
       // });
-      // console.log('team array --> ' , team[1].join(''));
       // console.log('scores array --> ' , scores);
       // .match(/\d/g);
       // let num = cleanedScore.match(/\d/g);
@@ -75,7 +78,7 @@ function app(oldPath, newPath, command) {
   
       // var newBuffer = transformation();
 
-      write(`${root}/${newPath}`, scores, (err) => {
+      write(`${root}/${newPath}`, scores+team, (err) => {
         if (err) console.log('!!ERROR!!3333');
         else {
           console.log(command +  ' finished to ' + newPath);
