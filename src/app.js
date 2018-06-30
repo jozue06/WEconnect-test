@@ -63,27 +63,29 @@ function app(oldPath, newPath, command) {
       
 
       scores.forEach((calc,i) => {
+       
         if( calc[0] > calc[1]){ 
           teamRez[i].points+=3;
-          console.log(`TEAM ${teamRez[i].name} BEAT ${teamRez[i].name} by a score of ${calc[0]}  to  ${calc[1]}`);
+          console.log(`TEAM ${teamRez[i++].name} BEAT ${teamRez[i++].name} by a score of ${calc[0]}  to  ${calc[1]}`);
+          
         }
         if( calc[0] < calc[1]){ 
           teamRez[1].points+=3;
-          console.log('team 2 won by a score of ', calc[0] ,' to ' , calc[1]);
+          // console.log('team 2 won by a score of ', calc[0] ,' to ' , calc[1]);
         }
         if( calc[0] === calc[1]){
           teamRez[i].points+=1;
           teamRez[i].points+=1;
-          console.log(`TEAM ${teamRez[i].name} TIED ${teamRez[i].name} by a score of ${calc[0]}  to  ${calc[1]}`);
-
-          // console.log(`TEAM ${teamRez[i].name} tied ${teamRez[i].name}`);
+          // console.log(`TEAM ${teamRez[i].name} TIED ${teamRez[i].name} by a score of ${calc[0]}  to  ${calc[1]}`);
+          
+          console.log(`TEAM ${teamRez[i++].name} tied ${teamRez[i++].name}`);
         }
-        i++;
+        
       });
 
       // console.log(`pontssssssss TEAM ${teamRez[1].name} has ${teamRez[1].points}`);
 
-      console.log('< -- break -- >');
+      // console.log('< -- break -- >');
 
       // console.log('TEAM leeeegn -- >  ', teamRez);
 
