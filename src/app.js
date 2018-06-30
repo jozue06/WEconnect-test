@@ -57,20 +57,21 @@ function app(oldPath, newPath, command) {
         };
       });
 
-      scores.forEach((calc,i) => {
+
+      scores.forEach((calc) => {
        
         if( calc[0] > calc[1]){ 
-          teamRez[i].points+=3;
-          console.log(`TEAM ${teamRez[i++].name} BEAT ${teamRez[i++].name} by a score of ${calc[0]}  to  ${calc[1]}`);
+          teamRez[0].points+=3;
+          // console.log(`TEAM ${teamRez[i++].name} BEAT ${teamRez[i++].name} by a score of ${calc[0]}  to  ${calc[1]}`);
         }
         if( calc[0] < calc[1]){ 
           teamRez[1].points+=3;
         }
         if( calc[0] === calc[1]){
-          teamRez[i].points+=1;
-          teamRez[i].points+=1;
+          teamRez[0].points+=1;
+          teamRez[1].points+=1;
           
-          console.log(`TEAM ${teamRez[i++].name} tied ${teamRez[i++].name}`);
+          // console.log(`TEAM ${teamRez[i++].name} tied ${teamRez[i++].name}`);
         }
         
       });

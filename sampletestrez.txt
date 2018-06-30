@@ -3,3 +3,11 @@ snakes 1
 turan 6
 awesome 1
 grouches 0
+
+
+this is a small scale google ratings system
+
+need to refactor my splitting of the input text file to just split per game, basically per line or per \n
+
+
+
