@@ -1,11 +1,11 @@
 'use strict';
 
-const reader = require('../lib/readFile.js');
+const reader = require('../src/lib/readFile.js');
 
 describe('Reader Module', () => {
   it('if there is a bad file name throw error', () => {
 
-    let file = `${__dirname}/../assets/fail.bmp`;
+    let file = `${__dirname}/../assets/fail.txt`;
 
     reader(file, (err) => {
 

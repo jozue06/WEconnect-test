@@ -6,6 +6,7 @@ const fs = require('fs');
 let root = __dirname;
 
 function getArgs(originalFile, newFile, transformationString) {
+  console.log('ORIGINAL OR EXTRA CRISPY? ---> ', originalFile);
   if (originalFile.split('.')[originalFile.split('.').length - 1] !== 'txt' || newFile.split('.')[newFile.split('.').length - 1] !== 'txt') {
     console.log(originalFile.split('.')[originalFile.split('.').length - 1]);
     console.log('please use a file that ends in .txt');

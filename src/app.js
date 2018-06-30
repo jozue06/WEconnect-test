@@ -1,22 +1,19 @@
 'use strict';
 
 
-const reader = require('./lib/readFile');
-// const CleanBuffer = require('./lib/bitmap');
-// const changeColors = require('./lib/colorFun');
-const write = require('./lib/writeFile');
-//const sizeChange = require('./lib/size');
+const reader = require('./lib/readFile.js');
+const write = require('./lib/writeFile.js');
+const Team = require('./lib/teams.js');
 
-const root = __dirname;
+// const root = __dirname;
 
-console.log('hi');
+console.log(Team);
 
 function app(oldPath, newPath, command) {
-  // let transformation;
 
   switch (command) {
   case 'test':
-    console.log('tested');
+    // console.log('tested');
     break;
 
   case 'test2':
@@ -33,52 +30,56 @@ function app(oldPath, newPath, command) {
     } else {
       let team = [];
       let scores = [];
-   
+      let tex = /[\n\W\d]/gi;
       let re = '\n';
-      // let points = 0;
-      let cleanedTeam = data.toString().trim().split(/[\n\W\d]/gi);
+      let cleanedTeam = data.toString().trim().split(tex);
       let cleanedScore = data.toString().trim().split(re);
       // console.log(data.toString());
       
       cleanedScore.forEach( (e) => {
-        // let num = ;
+
         scores.push(e.match(/\d/g));
         return scores;
       });
-
-
-      console.log('cleaned team -->' , cleanedTeam);
-      // console.log('cleaned team -->' , cleanedTeam);
-      // console.log('cleaned score -->' , cleanedScore);
       
-      cleanedTeam.forEach( (e) =>{
-        // e.trim();
-        // e.replace(/\s/g, '');
-        // console.log(e);
-        team.push(e.match(/\W/g));
-      
+      cleanedTeam.forEach( (e,i) =>{
+        if(e.match(/[a-z]/gi) !== null){
+          if(e[i] !== e){
+            team.push(e);
+          }
+        }
       });
-      console.log('team array --> ' , team);
-
-      // scores.forEach((calc) =>{
-      //   if( calc[0] > calc[1]){ 
-      //     // team[0].points+=3;
-      //     // console.log('pontssssssss ', team);
-      //     console.log('team 1 won');}
-      //   if( calc[0] < calc[1]){ 
-      //     console.log('team 2 won');}
-      //   if( calc[0] === calc[1]){ 
-      //     console.log('teams tied');}
-
-      // });
-      // console.log('scores array --> ' , scores);
-      // .match(/\d/g);
-      // let num = cleanedScore.match(/\d/g);
-      // num = num.join(' , ');
+      
+      let teamRez = [];
+      team.forEach( (e) => {
   
-      // var newBuffer = transformation();
+        teamRez.push({
+          name: e,
+          points:0,
+        });
+       
+      });
+      // console.log('TEAM REZZZZZZ  -- >  ', teamRez[1].points);
 
-      write(`${root}/${newPath}`, scores+team, (err) => {
+      scores.forEach((calc) => {
+        if( calc[0] > calc[1]){ 
+          teamRez.points+=3;
+          console.log('team 1 won by a score of ', calc[0] ,' to ' , calc[1]);}
+        if( calc[0] < calc[1]){ 
+          teamRez.points+=3;
+          console.log('team 2 won by a score of ', calc[0] ,' to ' , calc[1]);}
+        else if( calc[0] === calc[1]){
+          console.log('teams tied with a score of ', calc[0] ,' to ' , calc[1]);}
+
+      });
+
+      // console.log(`pontssssssss TEAM ${teamRez[1].name} has ${teamRez[1].points}`);
+
+      console.log('TEAM leeeegn -- >  ', team);
+
+    
+
+      write(`./${newPath}`, scores+team, (err) => {
         if (err) console.log('!!ERROR!!3333');
         else {
           console.log(command +  ' finished to ' + newPath);
@@ -87,8 +88,6 @@ function app(oldPath, newPath, command) {
     }
   });
 }
-
-
 
 
 module.exports = app;
