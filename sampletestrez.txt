@@ -1,0 +1,5 @@
+lions 5
+snakes 1
+turan 6
+awesome 1
+grouches 0

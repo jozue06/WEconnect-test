@@ -7,7 +7,7 @@ const Team = require('./lib/teams.js');
 
 // const root = __dirname;
 
-console.log(Team);
+// console.log(Team);
 
 function app(oldPath, newPath, command) {
 
@@ -34,52 +34,86 @@ function app(oldPath, newPath, command) {
       let re = '\n';
       let cleanedTeam = data.toString().trim().split(tex);
       let cleanedScore = data.toString().trim().split(re);
-      // console.log(data.toString());
+
       
       cleanedScore.forEach( (e) => {
-
         scores.push(e.match(/\d/g));
         return scores;
       });
+
       
-      cleanedTeam.forEach( (e,i) =>{
+      cleanedTeam.forEach( (e) =>{
         if(e.match(/[a-z]/gi) !== null){
-          if(e[i] !== e){
-            team.push(e);
-          }
+         
+          team.push(e);
         }
+        
       });
-      
+
+   
+
+      // let names = team
+      //   .map(e => e.name)
+      //   .filter((e, i, a) => a.indexOf(e) === i);
+
+      // console.log(names);
+   
+
       let teamRez = [];
       team.forEach( (e) => {
-  
+       
         teamRez.push({
           name: e,
           points:0,
         });
-       
       });
+
+      
+      let rez = teamRez.map(e => e.name)
+        .filter((e, i, a) => a.indexOf(e) === i);
+ 
+      console.log(rez);
+      
       // console.log('TEAM REZZZZZZ  -- >  ', teamRez[1].points);
 
-      scores.forEach((calc) => {
+      scores.forEach((calc,i) => {
         if( calc[0] > calc[1]){ 
-          teamRez.points+=3;
-          console.log('team 1 won by a score of ', calc[0] ,' to ' , calc[1]);}
+          teamRez[i].points+=3;
+          // console.log('team 1 won by a score of ', calc[0] ,' to ' , calc[1]);
+        }
         if( calc[0] < calc[1]){ 
-          teamRez.points+=3;
-          console.log('team 2 won by a score of ', calc[0] ,' to ' , calc[1]);}
+          teamRez[i].points+=3;
+          // console.log('team 2 won by a score of ', calc[0] ,' to ' , calc[1]);
+        }
         else if( calc[0] === calc[1]){
-          console.log('teams tied with a score of ', calc[0] ,' to ' , calc[1]);}
+          teamRez[i].points+=1;
+          teamRez[i].points+=1;
+          // console.log('teams tied with a score of ', calc[0] ,' to ' , calc[1]);
+        }
 
       });
 
       // console.log(`pontssssssss TEAM ${teamRez[1].name} has ${teamRez[1].points}`);
 
-      console.log('TEAM leeeegn -- >  ', team);
+      // console.log('TEAM leeeegn -- >  ', teamRez);
 
-    
+      let writeRez = [];
+      teamRez.forEach((e) => {
+        // console.log(`TEAM NAME --> ${e.name} HAS  ${e.points} PTS.`);
+        writeRez.push(`TEAM ${e.name} HAS  ${e.points} PTS.`);
+      });
 
-      write(`./${newPath}`, scores+team, (err) => {
+      // var names = writeRez.reduce(function (a, b) {
+      //   if (a.indexOf(b.name) == -1) {
+      //     a.push(b.name);
+      //   }
+      //   return a;
+      // },[]);
+      
+      // console.log(names);
+      
+
+      write(`./${newPath}`, writeRez, (err) => {
         if (err) console.log('!!ERROR!!3333');
         else {
           console.log(command +  ' finished to ' + newPath);
