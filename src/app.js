@@ -23,63 +23,112 @@ function app(oldPath, newPath, command) {
       console.log('!!ERROR!! 2222 ', err);
     } else {
 
-      let team = [];
+      let matchup = [];
+      let games = [];
       let scores = [];
-      let tex = /[\n\W\d]/gi;
+      let gamesCounter = 0;
       let re = '\n';
-      let cleanedTeam = data.toString().trim().split(tex);
-      let cleanedScore = data.toString().trim().split(re);
+      let winner = 0;
+      let cleanedGame = data.toString().trim().split(re);
 
+      cleanedGame.forEach( (e)=>{
+        games.push(e);
+        // gamesCounter++;
+
+      });
+
+      // console.log('GAMES -->', games);
+      // console.log('GAMES COUNTER -->', gamesCounter);
       
-      cleanedScore.forEach( (e) => {
+
+      cleanedGame.forEach( (e) => {
         scores.push(e.match(/\d/g));
-        return scores;
+        // return scores;
+      });
+      // console.log('SCORES ONLY -->', scores);
+
+      cleanedGame.forEach( (e) =>{
+        // if(e.match(/w/gi) !== null){
+        e = e.replace(/\d+/g, '');
+        e = e.replace(',', 'vs');
+        matchup.push(e);
+        // }
       });
 
-      cleanedTeam.forEach( (e) =>{
-        if(e.match(/[a-z]/gi) !== null){
-          team.push(e);
+      // console.log('TEAMS NAMES matchup --> ', matchup);
+
+      let showsGames = () => {
+        for (let i=0; i < scores.length; i++  ){
+          gamesCounter++;
+          // console.log(`CONCAT?? -->: Game ${gamesCounter} was: ${matchup[i]}, the score was ${scores[i]} ` );
         }
-      });
+        gamesCounter=0;
+      };
+      showsGames();
+
+      // console.log(`CONCAT?? -->:  ${scores[1]} + ${teams[1]}` );
 
       let teamRez = [];
 
-      team.forEach( (e) => {
+      matchup.forEach( (e) => {
+        // let newmatch = matchPair.split('vs');
         if(!teamRez.includes(e)){
+          // e = e.split('vs');
           teamRez.push(e);
+          
         }
-      });
-      
-      teamRez = teamRez.map(e =>{
-        return {
-          name :e,
-          points : 0,
-        };
+        // console.log(newmatch);
       });
 
+      // teamRez = teamRez.map((e) =>{
+      //   return {
+      //     name :e,
+      //     points : 0,
+      //   };
+      // });
 
+      // let teamObj = teamRez.map( (e) =>{
+      //   
+      //   return {
+      //     name :e,
+      //     points : 0,
+      //   };
+      // });
+
+      // console.log(teamObj);
+
+
+      let teamNames = [];
+      matchup.forEach((e) =>{
+        
+        teamNames.push(e = e.split('vs'));
+      });
+
+      console.log('NAMEEESSSS', teamNames);
+      console.log(teamRez);
+      // console.log(`team ${teamRez[gamesCounter].name[winner]} won`);
       scores.forEach((calc) => {
-       
-        if( calc[0] > calc[1]){ 
-          teamRez[0].points+=3;
-          // console.log(`TEAM ${teamRez[i++].name} BEAT ${teamRez[i++].name} by a score of ${calc[0]}  to  ${calc[1]}`);
+        gamesCounter++;
+        if( calc[0] > calc[1]){
+          winner=0;
+          // teamRez[gamesCounter].name[winner].points++;
         }
         if( calc[0] < calc[1]){ 
-          teamRez[1].points+=3;
+          winner=1;
         }
         if( calc[0] === calc[1]){
           teamRez[0].points+=1;
           teamRez[1].points+=1;
           
-          // console.log(`TEAM ${teamRez[i++].name} tied ${teamRez[i++].name}`);
+          // console.log(`TEAM ${teamRez[1].name} tied ${teamRez[2].name}`);
         }
         
       });
-
+     
       let writeRez = [];
       teamRez.forEach((e) => {
-        console.log(`TEAM NAME --> ${e.name} HAS  ${e.points} PTS.`);
-        writeRez.push(`TEAM ${e.name} HAS  ${e.points} PTS.`);
+        // console.log(`TEAM NAME --> ${e.name} HAS  ${e.points} PTS.`);
+        writeRez.push(`TEAM ${e.name} HAS ${e.points} PTS.`);
       });
 
 

@@ -1,1 +1,1 @@
-TEAM Lions HAS  11 PTS.,TEAM Snakes HAS  2 PTS.,TEAM Tarantulas HAS  0 PTS.,TEAM FC HAS  0 PTS.,TEAM Awesome HAS  0 PTS.,TEAM Grouches HAS  0 PTS.
+TEAM undefined HAS NaN PTS.,TEAM undefined HAS NaN PTS.,TEAM undefined HAS undefined PTS.,TEAM undefined HAS undefined PTS.,TEAM undefined HAS undefined PTS.
