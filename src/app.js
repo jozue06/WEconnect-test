@@ -1,13 +1,6 @@
 'use strict';
-
-
 const reader = require('./lib/readFile.js');
 const write = require('./lib/writeFile.js');
-const Team = require('./lib/teams.js');
-
-// const root = __dirname;
-
-// console.log(Team);
 
 function app(oldPath, newPath, command) {
 
