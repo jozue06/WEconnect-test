@@ -28,12 +28,18 @@ function app(oldPath, newPath, command) {
     if (err) {
       console.log('!!ERROR!! 2222 ', err);
     } else {
+      let matchup = [];
       let team = [];
+      let games = [];
       let scores = [];
+      let gamesCounter = 0;
+      let winner = 0;
       let tex = /[\n\W\d]/gi;
       let re = '\n';
       let cleanedTeam = data.toString().trim().split(tex);
       let cleanedScore = data.toString().trim().split(re);
+      let cleanedGame = data.toString().trim().split(re);
+
 
       
       cleanedScore.forEach( (e) => {
@@ -50,7 +56,20 @@ function app(oldPath, newPath, command) {
         
       });
 
+      cleanedGame.forEach( (e)=>{
+        games.push(e);
+        // gamesCounter++;
+
+      });
    
+
+      cleanedGame.forEach( (e) =>{
+        // if(e.match(/w/gi) !== null){
+        e = e.replace(/\d+/g, '');
+        e = e.replace(',', 'vs');
+        matchup.push(e);
+        // }
+      });
 
       // let names = team
       //   .map(e => e.name)
@@ -58,6 +77,44 @@ function app(oldPath, newPath, command) {
 
       // console.log(names);
    
+      let showsGames = () => {
+        for (let i=0; i < scores.length; i++  ){
+          gamesCounter++;
+          // console.log(`CONCAT?? -->: Game ${gamesCounter} was: ${matchup[i]}, the score was ${scores[i]} ` );
+        }
+        gamesCounter=0;
+      };
+      showsGames();
+
+
+      // teamRez = teamRez.map((e) =>{
+      //   return {
+      //     name :e,
+      //     points : 0,
+      //   };
+      // });
+
+      // let teamObj = teamRez.map( (e) =>{
+      //   
+      //   return {
+      //     name :e,
+      //     points : 0,
+      //   };
+      // });
+
+      // console.log(teamObj);
+
+
+      let teamNames = [];
+      matchup.forEach((e) =>{
+        
+        teamNames.push(e = e.split('vs'));
+      });
+
+      console.log('NAMEEESSSS', teamNames);
+      console.log(teamRez);
+      // console.log(`team ${teamRez[gamesCounter].name[winner]} won`);
+
 
       let teamRez = [];
       team.forEach( (e) => {
@@ -66,6 +123,16 @@ function app(oldPath, newPath, command) {
           name: e,
           points:0,
         });
+      });
+
+      matchup.forEach( (e) => {
+        // let newmatch = matchPair.split('vs');
+        if(!teamRez.includes(e)){
+          // e = e.split('vs');
+          teamRez.push(e);
+          
+        }
+        // console.log(newmatch);
       });
 
       
@@ -125,4 +192,3 @@ function app(oldPath, newPath, command) {
 
 
 module.exports = app;
-
