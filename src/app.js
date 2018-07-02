@@ -1,4 +1,5 @@
 'use strict';
+
 const reader = require('./lib/readFile.js');
 const write = require('./lib/writeFile.js');
 
@@ -22,81 +23,86 @@ function app(oldPath, newPath, command) {
     if (err) {
       console.log('!!ERROR!! ', err);
     } else {
-    /* This section sets up quite a few initial variables that are used inside the bulk of the "reader" function.
-    The beginning section of the reader block also 'cleans' the file 
-    and parses it down into parts to be used in the main calculation algorithm */
+      /* This section sets up quite a few initial variables that are used inside the bulk of the "reader" function.
+      The beginning section of the reader block also 'cleans' the file 
+      and parses it down into parts to be used in the main calculation algorithm. */
       let matchup = [];
-      let team = [];
       let gameScores = [];
       let teamPoints = [];
-      let tex = /[\n\W\d]/gi;
       let re = '\n';
-      let cleanedTeam = data.toString().trim().split(tex);
       let cleanedScore = data.toString().trim().split(re);
       let cleanedGame = data.toString().trim().split(re);
 
-      cleanedScore.forEach( (e) => {
+      cleanedScore.forEach((e) => {
         gameScores.push(e.match(/\d/g));
         return gameScores;
       });
 
-      let gameScores2=[];
+      let gameScores2 = [];
       gameScores.forEach((e) => {
         e = e.map(el => {
           gameScores2.push(el);
+          return e;
         });
       });
-            
-      cleanedTeam.forEach( (e) =>{
-        if(e.match(/[a-z]/gi) !== null){
-          team.push(e.trim());
-        }
-      });
 
-      cleanedGame.forEach( (e) =>{
+      cleanedGame.forEach((e) => {
         e = e.replace(/\d+/g, '');
         e = e.replace(',', 'vs');
         matchup.push(e.trim());
       });
-      
+
       let teamNames = [];
-      matchup.forEach((e) =>{
+      matchup.forEach((e) => {
         teamNames.push(e = e.split('vs'));
       });
 
       let newNames = [];
-      teamNames.forEach( (e) => {
+      teamNames.forEach((e) => {
         e = e.map(el => {
           newNames.push(el.trim());
+          return e;
         });
       });
 
-      let calculateRate =  () => {
+      /*  ^^^^^^^^^^ This upper section of the reader function/section is 
+       reading, cleaning, and parsing the file into 'chunks' 
+       that the program can then manipulate individually.
+       It uses those chunks to do the calculations later. */
+
+
+
+
+      /* **************************************
+      ** 3. THIS IS THE MAIN ALGORITHM FOR CALCULATIONS OF RANK.
+      */ 
+      let calculateRate = () => {
         gameScores = gameScores2;
         teamNames = newNames;
         for (let i = 0; i < teamNames.length; i += 2) {
-          if (gameScores[i] > gameScores[i + 1]) { 
+          if (gameScores[i] > gameScores[i + 1]) {
 
             teamPoints.push([teamNames[i], 3]);
             teamPoints.push([teamNames[i + 1], 0]);
-          } 
-          else if (gameScores[i] < gameScores[i + 1]) { 
+          } else if (gameScores[i] < gameScores[i + 1]) {
 
             teamPoints.push([teamNames[i + 1], 3]);
             teamPoints.push([teamNames[i], 0]);
-          } 
-          else if (gameScores[i] === gameScores[i + 1]) { 
+          } else if (gameScores[i] === gameScores[i + 1]) {
 
             teamPoints.push([teamNames[i], 1]);
             teamPoints.push([teamNames[i + 1], 1]);
-          } 
-          else {
+          } else {
             console.log('There has been an error calculating points');
           }
         }
         return teamPoints;
       };
-   
+
+      /* 4. These last three sections of code blocks take the calculations 
+      made above and returns the rank, sorts the teams by rank, 
+      and then concats those into the file to be written by the "write" module */
+
       let calculateTable = () => {
         let tableData = {};
         let teamPoints = calculateRate();
@@ -112,6 +118,7 @@ function app(oldPath, newPath, command) {
         return tableData;
       };
 
+
       let sortTable = () => {
         let table = [];
         let tableData = calculateTable();
@@ -126,14 +133,14 @@ function app(oldPath, newPath, command) {
             return -1;
           }
           if (a[0] > b[0]) {
-            return 1; 
+            return 1;
           }
           if (a[0] < b[0]) {
             return -1;
           }
           return 0;
         });
-        
+
         return table;
       };
 
@@ -159,15 +166,22 @@ function app(oldPath, newPath, command) {
         return results;
       };
 
+      /* 5. This is the final stage of the app. It takes all the work that has been done from above and 
+      boils it down into a file for output and writting to the location you specified in the command. */
+
       let output = displayTable();
-      console.log('your results are:\n',output);
+      console.log('your results are:\n', output);
       write(`./${newPath}`, output, (err) => {
-        if (err) console.log('!!ERROR!!3333');
+        if (err) console.log('!!ERROR!!');
         else {
-          console.log(command +  ' finished to ' + newPath);
+          console.log(command + ' finished to ' + newPath);
         }
       });
     }
-  }
-  );}
+  });
+}
+
+/* This code can also be integrated into other code as it is exporting modules for read, write, app and getArgs(for the command line). 
+I chose to not use ES6 import/export syntax as it seemed somewhat difficult to impliment babel into the command line.*/
+
 module.exports = app;

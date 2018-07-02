@@ -1,7 +1,7 @@
 'use strict';
 
 const reader = require('../src/lib/readFile.js');
-const root = __dirname + '/../..';
+
 
 describe('file module', () => {
 
