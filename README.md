@@ -1,6 +1,6 @@
 # WEconnect-test
 CLI app for WEconnect
-[![Build Status](https://travis-ci.com/)](https://travis-ci.com/
+[![Build Status](https://travis-ci.com/jozue06/WEconnect-test.svg?branch=v0.6)](https://travis-ci.com/jozue06/WEconnect-test)
 
 ## Download/install instructions:
 
