@@ -15,11 +15,13 @@ function app(oldPath, newPath, command) {
     break;
   default:
     console.log('please choose an argument to run.');
+  
   }
   /* 2. This is the "reader" function and section of code. 
   This function is imported from the function module that lives in the /src/lib/ section.
   It takes in */
-  reader(`./${oldPath}`, (err, data) => {
+  reader(`${oldPath}`, (err, data) => {
+
     if (err) {
       console.log('!!ERROR!! ', err);
     } else {
@@ -170,13 +172,13 @@ function app(oldPath, newPath, command) {
       boils it down into a file for output and writting to the location you specified in the command. */
 
       let output = displayTable();
-      console.log('your results are:\n', output);
       write(`./${newPath}`, output, (err) => {
         if (err) console.log('!!ERROR!!');
         else {
           console.log(command + ' finished to ' + newPath);
         }
       });
+      return output;
     }
   });
 }
