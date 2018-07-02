@@ -24,23 +24,29 @@ function app(oldPath, newPath, command) {
       let matchup = [];
       let team = [];
       let games = [];
-      let scores = [];
-      let gamesCounter = 0;
-      let winner = 0;
+      let gameScores = [];
+      // let gamesCounter = 0;
+      // let winner = 0;
+      // let tied =0;
+      let pointsEarned = [];
       let tex = /[\n\W\d]/gi;
       let re = '\n';
       let cleanedTeam = data.toString().trim().split(tex);
       let cleanedScore = data.toString().trim().split(re);
       let cleanedGame = data.toString().trim().split(re);
 
-
-      
       cleanedScore.forEach( (e) => {
-        scores.push(e.match(/\d/g));
-        return scores;
+        gameScores.push(e.match(/\d/g));
+        return gameScores;
       });
 
-      
+      let gameScores2=[];
+      gameScores.forEach((e) => {
+        e = e.map(el => {
+          gameScores2.push(el);
+        });
+      });
+            
       cleanedTeam.forEach( (e) =>{
         if(e.match(/[a-z]/gi) !== null){
          
@@ -51,126 +57,108 @@ function app(oldPath, newPath, command) {
 
       cleanedGame.forEach( (e)=>{
         games.push(e);
-        // gamesCounter++;
 
       });
    
 
       cleanedGame.forEach( (e) =>{
-        // if(e.match(/w/gi) !== null){
         e = e.replace(/\d+/g, '');
         e = e.replace(',', 'vs');
         matchup.push(e);
-        // }
       });
-
-      // let names = team
-      //   .map(e => e.name)
-      //   .filter((e, i, a) => a.indexOf(e) === i);
-
-      // console.log(names);
-   
-      let showsGames = () => {
-        for (let i=0; i < scores.length; i++  ){
-          gamesCounter++;
-          // console.log(`CONCAT?? -->: Game ${gamesCounter} was: ${matchup[i]}, the score was ${scores[i]} ` );
-        }
-        gamesCounter=0;
-      };
-      showsGames();
-
-
-      // teamRez = teamRez.map((e) =>{
-      //   return {
-      //     name :e,
-      //     points : 0,
-      //   };
-      // });
-
-      // let teamObj = teamRez.map( (e) =>{
-      //   
-      //   return {
-      //     name :e,
-      //     points : 0,
-      //   };
-      // });
-
-      // console.log(teamObj);
-
+      
 
       let teamNames = [];
       matchup.forEach((e) =>{
-        
         teamNames.push(e = e.split('vs'));
       });
 
       console.log('NAMEEESSSS', teamNames);
-      console.log(teamRez);
-      // console.log(`team ${teamRez[gamesCounter].name[winner]} won`);
 
-
-      let teamRez = [];
-      team.forEach( (e) => {
-       
-        teamRez.push({
-          name: e,
-          points:0,
+      let newNames = [];
+      teamNames.forEach( (e) => {
+        e = e.map(el => {
+          newNames.push(el);
         });
       });
 
-      matchup.forEach( (e) => {
-        // let newmatch = matchPair.split('vs');
-        if(!teamRez.includes(e)){
-          // e = e.split('vs');
-          teamRez.push(e);
-          
-        }
-        // console.log(newmatch);
-      });
+      console.log('NAMEEESSSS', newNames);
 
+      let computePoints =  () => {
+        gameScores = gameScores2;
+        teamNames = newNames;
+        console.log('ARE YOU RRRRREEE TAMSSSSS -->', teamNames);
+        for (var i = 0; i < teamNames.length; i += 2) {
+          if (gameScores[i] > gameScores[i + 1]) { 
+
+            pointsEarned.push([teamNames[i], 3]);
+            pointsEarned.push([teamNames[i + 1], 0]);
+          } 
+          else if (gameScores[i] < gameScores[i + 1]) { 
+
+            pointsEarned.push([teamNames[i + 1], 3]);
+            pointsEarned.push([teamNames[i], 0]);
+          } 
+          else if (gameScores[i] === gameScores[i + 1]) { 
+
+            pointsEarned.push([teamNames[i], 1]);
+            pointsEarned.push([teamNames[i + 1], 1]);
+          } 
+          else {
+            console.log('Error in computing points');
+          }
+        }
+        console.log('pointsastst -->', pointsEarned);
+        return pointsEarned;
+      };
+   
+      let calculateTable = () => {
+        var tableData = {};
+        var pointsEarned = computePoints();
+        for (var i = 0; i < pointsEarned.length; i++) {
+          var currentTeam = pointsEarned[i][0];
+          var currentScore = pointsEarned[i][1];
+          var existingScore = 0;
+          if (tableData[currentTeam] >= 0) {
+            existingScore = tableData[currentTeam];
+          }
+          tableData[currentTeam] = existingScore + currentScore;
+        }
+        console.log('TABLE DATASASASA -->', tableData);
+        return tableData;
+      };
+
+      let sortTable = () => {
+        var table = [];
+        var tableData = calculateTable();
+        for (var key in tableData) {
+          table.push([key, tableData[key]]);
+        }
       
-      let rez = teamRez.map(e => e.name)
-        .filter((e, i, a) => a.indexOf(e) === i);
- 
-      console.log(rez);
-      
-      // console.log('TEAM REZZZZZZ  -- >  ', teamRez[1].points);
+        table.sort((a, b) => {
+          if (a[1] < b[1]) {
+            return 1; // sort by score
+          }
+          if (a[1] > b[1]) {
+            return -1;
+          }
+          if (a[0] > b[0]) {
+            return 1; // sort by team name
+          }
+          if (a[0] < b[0]) {
+            return -1;
+          }
+          return 0;
+        });
+        console.log('DEIER TABLELELELELEL -->', table);
+        return table;
+      };
 
-      scores.forEach((calc,i) => {
-        if( calc[0] > calc[1]){ 
-          teamRez[i].points+=3;
-          // console.log('team 1 won by a score of ', calc[0] ,' to ' , calc[1]);
-        }
-        if( calc[0] < calc[1]){ 
-          teamRez[i].points+=3;
-          // console.log('team 2 won by a score of ', calc[0] ,' to ' , calc[1]);
-        }
-        else if( calc[0] === calc[1]){
-          teamRez[i].points+=1;
-          teamRez[i].points+=1;
-          // console.log('teams tied with a score of ', calc[0] ,' to ' , calc[1]);
-        }
 
-      });
-
-      // console.log(`pontssssssss TEAM ${teamRez[1].name} has ${teamRez[1].points}`);
-
-      // console.log('TEAM leeeegn -- >  ', teamRez);
-
-      let writeRez = [];
-      teamRez.forEach((e) => {
-        // console.log(`TEAM NAME --> ${e.name} HAS  ${e.points} PTS.`);
-        writeRez.push(`TEAM ${e.name} HAS  ${e.points} PTS.`);
-      });
-
-      // var names = writeRez.reduce(function (a, b) {
-      //   if (a.indexOf(b.name) == -1) {
-      //     a.push(b.name);
-      //   }
-      //   return a;
-      // },[]);
-      
-      // console.log(names);
+      let writeRez = sortTable();
+      // teamRez.forEach((e) => {
+      //   writeRez.push(`TEAM ${e.name} HAS  ${e.points} PTS.`);
+      // });
       
 
       write(`./${newPath}`, writeRez, (err) => {
@@ -180,8 +168,9 @@ function app(oldPath, newPath, command) {
         }
       });
     }
-  });
-}
+  }
+  );}
+
 
 
 module.exports = app;
