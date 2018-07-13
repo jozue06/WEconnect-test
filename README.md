@@ -6,15 +6,15 @@ CLI app for WEconnect
 
 * To use this app, please open your terminal and in the command line, navigate to the directory you would like this app to live.
 
-* When there, in the command line, type: `git` `clone ` `https://github.com/jozue06/WEconnect-test.git`
+* When there, in the command line, type: `git clone https://github.com/jozue06/WEconnect-test.git`
 
 * Navigate to the Weconnect-test folder in the command line.
 
-* Also on the command line, type: `npm` `i` to install required dependancies.
+* Also on the command line, type: `npm i` to install required dependancies.
 
 
 ## CLI instructions
-* After downloading, please type `node` `index.js` `yourStarterFilePath.FileName.txt` `yourIntendedOutputFilePath.FileName.txt` `run` in the command line.
+* After downloading, please type `node index.js yourStarterFilePath.FileName.txt yourIntendedOutputFilePath.FileName.txt run` in the command line.
 * * (for example `node index.js src/assets/sample-input.txt src/assets/sample-output.txt run`).
 
 ## Exported Modules
@@ -38,4 +38,4 @@ CLI app for WEconnect
 
 ## TDD & Unit testing:
 
-* I've written a few tests to test the main functionality of the app. It can read an input file, throw errors for bad commands/files/filepaths, and write correct files as well. The tests were tested with jest by typing `jest` or `npm` `run` `test` in the command line.
+* I've written a few tests to test the main functionality of the app. It can read an input file, throw errors for bad commands/files/filepaths, and write correct files as well. The tests were tested with jest by typing `jest` or `npm run test` in the command line.
